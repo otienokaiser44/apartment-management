@@ -1,0 +1,51 @@
+# Local Supabase configuration (supabase CLI). Start with `npm run db:start`.
+project_id = "apartment-management"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 17
+
+[db.migrations]
+enabled = true
+
+[db.seed]
+enabled = true
+# Development data only; see the header of seed.sql.
+sql_paths = ["./seed.sql"]
+
+[studio]
+enabled = true
+port = 54323
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = ["http://localhost:3000/**", "http://127.0.0.1:3000/**"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+enable_signup = true
+enable_anonymous_sign_ins = false
+minimum_password_length = 8
+
+[auth.email]
+enable_signup = true
+# Local development only: no email confirmation round-trip. Turn this ON in production.
+enable_confirmations = false
+double_confirm_changes = true
+
+[inbucket]
+# Catches password-reset and invitation emails locally at http://127.0.0.1:54324
+enabled = true
+port = 54324
