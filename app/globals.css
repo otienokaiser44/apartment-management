@@ -1,26 +1,145 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens (shadcn-style semantic colors). Components use these names (bg-card, border-border,
+ * text-muted-foreground, bg-primary ...) so the whole app themes from this one file.
+ *
+ * Theme selection:
+ *   - default: follows the OS (prefers-color-scheme)
+ *   - user override: <html data-theme="light|dark">, set by the Appearance setting (see app/layout.tsx)
+ *
+ * `color-scheme` matters as much as the colours: it makes native controls (select option lists, date pickers,
+ * scrollbars, checkboxes) render in the matching theme. Without it a dark page gets a white dropdown list
+ * with pale text, which is unreadable.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: #fafafa;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: #e4e4e7;
+  --input: #d4d4d8;
+  --ring: #10b981;
+  --primary: #059669;
+  --primary-foreground: #ffffff;
+  --accent: #ecfdf5;
+  --accent-foreground: #047857;
+  --destructive: #dc2626;
+  --success: #059669;
+  --warning: #b45309;
+  --info: #4f46e5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --background: #09090b;
+    --foreground: #fafafa;
+    --card: #18181b;
+    --card-foreground: #fafafa;
+    --muted: #27272a;
+    --muted-foreground: #a1a1aa;
+    --border: #27272a;
+    --input: #3f3f46;
+    --ring: #34d399;
+    --primary: #10b981;
+    --primary-foreground: #022c22;
+    --accent: #052e2b;
+    --accent-foreground: #6ee7b7;
+    --destructive: #f87171;
+    --success: #34d399;
+    --warning: #fbbf24;
+    --info: #a5b4fc;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #18181b;
+  --card-foreground: #fafafa;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --border: #27272a;
+  --input: #3f3f46;
+  --ring: #34d399;
+  --primary: #10b981;
+  --primary-foreground: #022c22;
+  --accent: #052e2b;
+  --accent-foreground: #6ee7b7;
+  --destructive: #f87171;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --info: #a5b4fc;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Dropdowns: the options list is drawn by the browser, so give it explicit, theme-aware colours instead of
+ * inheriting the control's transparent background and light text.
+ */
+select,
+select option,
+select optgroup {
+  background-color: var(--card);
+  color: var(--card-foreground);
+}
+select option:checked {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+/* After :checked on purpose: a disabled placeholder ("Choose…") stays muted even while it is the selected option. */
+select option:disabled {
+  color: var(--muted-foreground);
+}
+
+/* Visible keyboard focus everywhere, without changing mouse behaviour. */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Subtle, consistent scrollbars for tables and menus. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

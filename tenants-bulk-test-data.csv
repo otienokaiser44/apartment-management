@@ -1,0 +1,11 @@
+unit_number,floor,tenant_name,tenant_email,tenant_phone,lease_start_date,lease_end_date
+101,1,Amina Mohamed,amina.mohamed@example.com,+254712345678,2026-01-01,2026-12-31
+102,1,Brian Kiprop,brian.kiprop@example.com,+254722345678,2026-02-01,2027-01-31
+103,1,Cynthia Akinyi,cynthia.akinyi@example.com,+254733345678,2026-03-01,2027-02-28
+201,2,Daniel Kamau,daniel.kamau@example.com,+254744345678,2026-04-01,2027-03-31
+202,2,Esther Wanjiku,esther.wanjiku@example.com,+254755345678,2026-05-01,2027-04-30
+203,2,Felix Ochieng,felix.ochieng@example.com,+254766345678,2026-06-01,2027-05-31
+301,3,Grace Mutheu,grace.mutheu@example.com,+254777345678,2026-07-01,2027-06-30
+302,3,Hassan Juma,hassan.juma@example.com,+254788345678,2026-08-01,2027-07-31
+401,4,Ivy Chepkoech,ivy.chepkoech@example.com,+254799345678,2026-09-01,2027-08-31
+501,5,John Njoroge,john.njoroge@example.com,+254700345678,2026-10-01,2027-09-30

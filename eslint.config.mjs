@@ -2,7 +2,7 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 
-const roles = ["admin", "landlord", "tenant", "visitor"];
+const roles = ["admin", "landlord", "tenant", "manager", "visitor"];
 
 // Supabase clients live only in lib/supabase; role code must go through lib/services.
 const supabaseClientPatterns = [

@@ -30,10 +30,12 @@ Key rules: a role never imports another role's feature (enforced by ESLint); sha
 npm install
 npm run dev
 npm run lint
+npm run typecheck
+npm test
 npm run build
 ```
 
-Open http://localhost:3000. Routes: `/`, `/visitor`, `/tenant`, `/landlord`, `/admin`.
+Open http://localhost:3000. Routes: `/`, `/visitor`, `/tenant`, `/landlord`, `/admin`, plus `/auth/{tenant,landlord}/{signup,login,forgot-password}`. See [docs/auth.md](docs/auth.md).
 
 ## Database
 
