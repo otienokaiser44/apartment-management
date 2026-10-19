@@ -14,12 +14,13 @@ import { requireRole } from "@/lib/auth/session";
 import { getMyProperty, getPropertyAmenityIds, listAmenities, listUnits } from "@/lib/services/properties";
 import { listActiveTenancies } from "@/lib/services/tenancies";
 import { StaffPanel } from "../staff/StaffPanel";
-import { PropertyTabs, type PropertyTab } from "./PropertyTabs";
+import { VerificationTab } from "../verification/VerificationTab";
+import { OWNER_ONLY_TABS, PropertyTabs, type PropertyTab } from "./PropertyTabs";
 
 const money = (n: number, currency: string) => `${currency} ${Number(n).toLocaleString()}`;
 
 const VERIFY_HINT: Record<string, string> = {
-  unverified: "Not yet verified. Verification submission is coming soon; it is reviewed by the platform admin.",
+  unverified: "Not yet verified. Submit proof of ownership from the Verification tab; the platform admin reviews it.",
   pending: "Verification submitted and waiting for review.",
   under_review: "An admin is reviewing this property.",
   verified: "Verified. This property can be shown publicly once published.",
@@ -60,12 +61,13 @@ export async function PropertyDetailPage({ propertyId, tab, month, unitId }: Pro
         <span className="text-xs text-muted-foreground">{VERIFY_HINT[property.verification_status]}</span>
       </div>
 
-      <PropertyTabs propertyId={propertyId} active={isOwner || tab !== "staff" ? tab : "units"} isOwner={isOwner} />
+      <PropertyTabs propertyId={propertyId} active={isOwner || !OWNER_ONLY_TABS.includes(tab) ? tab : "units"} isOwner={isOwner} />
 
-      {tab === "units" || (tab === "staff" && !isOwner) ? <UnitsTab propertyId={propertyId} description={property.description} /> : null}
+      {tab === "units" || (OWNER_ONLY_TABS.includes(tab) && !isOwner) ? <UnitsTab propertyId={propertyId} description={property.description} /> : null}
       {tab === "tenants" ? <TenantsSection propertyId={propertyId} propertyCode={property.property_code} selectedUnitId={unitId} /> : null}
       {tab === "billing" ? <BillingTab propertyId={propertyId} month={month} unitId={unitId} isOwner={isOwner} /> : null}
       {tab === "staff" && isOwner ? <StaffPanel propertyId={propertyId} /> : null}
+      {tab === "verification" && isOwner ? <VerificationTab propertyId={propertyId} verificationStatus={property.verification_status} /> : null}
       {tab === "announcements" ? <AnnouncementsTab propertyId={propertyId} /> : null}
     </>
   );

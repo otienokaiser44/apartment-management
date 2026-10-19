@@ -1,4 +1,4 @@
-import { Building2, Droplets, Megaphone, UserCog, Users, type LucideIcon } from "lucide-react";
+import { Building2, Droplets, Megaphone, ShieldCheck, UserCog, Users, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/components/ui/cn";
 
@@ -8,9 +8,13 @@ export const PROPERTY_TABS = [
   { id: "billing", label: "Billing & Utilities", icon: Droplets },
   { id: "staff", label: "Staff & Managers", icon: UserCog },
   { id: "announcements", label: "Announcements", icon: Megaphone },
+  { id: "verification", label: "Verification", icon: ShieldCheck },
 ] as const satisfies readonly { id: string; label: string; icon: LucideIcon }[];
 
 export type PropertyTab = (typeof PROPERTY_TABS)[number]["id"];
+
+/** Tabs managers and caretakers never see: staff delegation and verification belong to the owner. */
+export const OWNER_ONLY_TABS: readonly PropertyTab[] = ["staff", "verification"];
 
 export const parseTab = (v: unknown): PropertyTab =>
   PROPERTY_TABS.some((t) => t.id === v) ? (v as PropertyTab) : "units";
@@ -23,7 +27,7 @@ export function PropertyTabs({ propertyId, active, isOwner }: { propertyId: stri
   return (
     <nav aria-label="Property sections" className="mb-6 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <div className="inline-flex gap-1 rounded-xl border border-border bg-muted/50 p-1">
-        {PROPERTY_TABS.filter((t) => isOwner || t.id !== "staff").map((t) => {
+        {PROPERTY_TABS.filter((t) => isOwner || !OWNER_ONLY_TABS.includes(t.id)).map((t) => {
           const Icon = t.icon;
           const isActive = active === t.id;
           return (

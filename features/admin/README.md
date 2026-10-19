@@ -18,6 +18,14 @@ features/admin/
   nav.ts  index.ts
 ```
 
+## Built so far
+- `dashboard/`: platform counts, property verification mix, open-report count, oldest pending requests and recent audit entries.
+- `verification/`: queue (`/admin/verification`) and request detail with signed document links and the decision form (`/admin/verification/[id]`).
+- `properties/`: every property with landlord, unit and occupancy counts, listing and verification status; search and verification filter (`/admin/properties`).
+- `users/`: landlords, tenants and managers in tabs with search; landlords show property counts, tenants their current unit (`/admin/users?role=`). Read-only.
+- Data access: `lib/services/admin.ts` (verification, dashboard) and `lib/services/adminDirectory.ts` (properties and people lists). All RLS reads. The landlord side that feeds the queue lives in `features/landlord/verification/`.
+- Not built yet: suspending users or properties from the UI (`admin_set_user_status`, `admin_set_property_status` exist), listing moderation, reports and the audit-log viewer.
+
 ## Database
 Tables: `profiles`, `admin_profiles`, `landlord_profiles`, `properties`, `property_verification_requests`, `property_verification_documents`, `verification_document_types`, `property_reports`, `audit_logs` (read-only), `notifications`.
 
